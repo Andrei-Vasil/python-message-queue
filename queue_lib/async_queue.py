@@ -1,5 +1,5 @@
 import asyncio
-from typing import TypeVar, Generic, List
+from typing import TypeVar, Generic
 from collections import deque
 
 T = TypeVar('T')
