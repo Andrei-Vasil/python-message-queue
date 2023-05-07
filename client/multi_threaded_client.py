@@ -2,17 +2,24 @@ import threading, random, time, requests
 
 def pusher():
     x = random.randint(1, 10)
-    requests.post('http://localhost:5000/push', data={'item': x})
+    headers = {
+      'Content-Type': 'application/json', 
+      'Accept': 'text/plain'
+    }
+    body = {
+        'item': x
+    }
+    requests.post('http://localhost:5000/push', headers=headers, data=body)
 
 def pusher_wrapper():
-    for _ in range(5000):
+    for _ in range(500):
         pusher()
 
 def popper():
     requests.get('http://localhost:5000/pop')
 
 def popper_wrapper():
-    for _ in range(5000):
+    for _ in range(500):
         popper()
 
 def main():
