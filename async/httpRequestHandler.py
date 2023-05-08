@@ -29,6 +29,7 @@ async def remove(topic):
 async def subscribe(topic):
     try:
         id = await subscriptionManager.subscribe(topic)
+        print(id)
         return f'{id}', 200
     except Exception as e:
         return str(e), 404
