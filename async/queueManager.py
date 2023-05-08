@@ -18,7 +18,7 @@ class QueueManager:
         self.__queue_channels_locks.pop(topic)
 
     async def createQueueChannel(self, topic: str) -> int:
-        if not self.__topicManager.exists(topic):
+        if not await self.__topicManager.exists(topic):
             raise Exception(f"There is no topic named: {topic}")
         id = None
         with self.__ids_lock.acquire():
@@ -29,20 +29,20 @@ class QueueManager:
         return id
 
     async def removeQueueChannel(self, topic: str, id: int):
-        if not self.__topicManager.exists(topic):
+        if not await self.__topicManager.exists(topic):
             raise Exception(f"There is no topic named: {topic}")
         with self.__queue_channels_locks.get(topic, asyncio.Lock()).acquire():
             self.__queue_channels[topic].pop(id)
 
     async def publishMessage(self, topic: str, message: str):
-        if not self.__topicManager.exists(topic):
+        if not await self.__topicManager.exists(topic):
             raise Exception(f"There is no topic named: {topic}")
         with self.__queue_channels_locks.get(topic, asyncio.Lock()).acquire():
             for queue_channel in self.__queue_channels[topic].values():
                 queue_channel.push(message)
 
     async def retrieveMessage(self, topic: str, queue_channel_id: int) -> str:
-        if not self.__topicManager.exists(topic):
+        if not await self.__topicManager.exists(topic):
             raise Exception(f"There is no topic named: {topic}")
         with self.__queue_channels_locks.get(topic, asyncio.Lock()).acquire():
             return await self.__queue_channels[topic][queue_channel_id].pop()
