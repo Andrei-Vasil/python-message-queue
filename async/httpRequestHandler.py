@@ -1,4 +1,3 @@
-from types import TracebackType
 from quart import Quart, request
 from subscriptionManager import SubscriptionManager
 from topicManager import TopicManager
