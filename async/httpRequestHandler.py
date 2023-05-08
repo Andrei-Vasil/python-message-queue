@@ -1,3 +1,4 @@
+from types import TracebackType
 from quart import Quart, request
 from subscriptionManager import SubscriptionManager
 from topicManager import TopicManager
@@ -12,6 +13,7 @@ subscriptionManager: SubscriptionManager = SubscriptionManager(queueManager)
 async def new(topic):
     try:
         await topicManager.new(topic)
+        await queueManager.topicAdded(topic)
         return f'Successfully created the new topic {topic}', 200
     except Exception as e:
         return str(e), 404
@@ -29,7 +31,6 @@ async def remove(topic):
 async def subscribe(topic):
     try:
         id = await subscriptionManager.subscribe(topic)
-        print(id)
         return f'{id}', 200
     except Exception as e:
         return str(e), 404
@@ -55,6 +56,7 @@ async def publish(topic):
 async def retrieve(topic, id):
     try:
         message = await queueManager.retrieveMessage(topic, id)
+        print(f'retrieve: {message}')
         return f'{message}', 200
     except Exception as e:
         return str(e), 404
