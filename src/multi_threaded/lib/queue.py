@@ -3,6 +3,8 @@ from collections import deque
 import queue
 import threading
 
+import sys, os
+sys.path.append(os.path.abspath(os.path.join('.')))
 from benchmark.benchmark import mark_end_of_push
 
 T = TypeVar('T')

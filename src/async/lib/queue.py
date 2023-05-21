@@ -2,6 +2,8 @@ import asyncio
 from typing import TypeVar, Generic
 from collections import deque
 
+import sys, os
+sys.path.append(os.path.abspath(os.path.join('.')))
 from benchmark.benchmark import mark_end_of_push
 
 T = TypeVar('T')
