@@ -4,7 +4,7 @@ import queue
 import threading
 
 import sys, os
-sys.path.append(os.path.abspath(os.path.join('.')))
+sys.path.append(os.path.abspath(os.path.join('src')))
 from benchmark.benchmark import mark_end_of_push
 
 T = TypeVar('T')
