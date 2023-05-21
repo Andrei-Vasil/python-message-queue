@@ -4,9 +4,9 @@ import time
 
 BENCHMARKING = True
 BENCHMARK_ID = 7
-LATENCY_BENCHMARK_FILE = f'data/{datetime.date.today()}-{BENCHMARK_ID}.csv'
-PRODUCER_THROUGHPUT_BENCHMARK_FILE = f'data/{datetime.date.today()}-{BENCHMARK_ID}.csv'
-CONSUMER_THROUGHPUT_BENCHMARK_FILE = f'data/{datetime.date.today()}-{BENCHMARK_ID}.csv'
+LATENCY_BENCHMARK_FILE = f'data/latency/{datetime.date.today()}-{BENCHMARK_ID}.csv'
+PRODUCER_THROUGHPUT_BENCHMARK_FILE = f'data/throughput/producer/{datetime.date.today()}-{BENCHMARK_ID}.csv'
+CONSUMER_THROUGHPUT_BENCHMARK_FILE = f'data/throughput/consumer/{datetime.date.today()}-{BENCHMARK_ID}.csv'
 
 def mark_end_of_push(benchmark_id: str):
     if not BENCHMARKING:
