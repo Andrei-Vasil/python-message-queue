@@ -5,7 +5,7 @@ import threading
 
 import sys, os
 sys.path.append(os.path.abspath(os.path.join('src')))
-from benchmark.benchmark import mark_end_of_push
+from benchmark.benchmark import count_consumer_throughput, count_producer_throughput, mark_end_of_push
 
 T = TypeVar('T')
 
@@ -39,6 +39,7 @@ class MultiThreadedQueue(Generic[T]):
         with self.__condition:
             self.__condition.notify()
         mark_end_of_push(benchmark_id)
+        count_producer_throughput()
         q.put(True)
     
     def push(self, item: T, benchmark_id: str) -> None:
@@ -53,6 +54,7 @@ class MultiThreadedQueue(Generic[T]):
                 self.__condition.wait()
             with self.__lock:
                 self.__consumer_queue.put(self.__items.popleft())
+        count_consumer_throughput()
         q.put(True)
 
     def pop(self) -> T:

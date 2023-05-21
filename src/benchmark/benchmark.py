@@ -3,11 +3,23 @@ import os
 import time
 
 BENCHMARKING = True
-BENCHMARK_ID = 2
-BENCHMARK_FILE = f'data/{datetime.date.today()}-{BENCHMARK_ID}.csv'
+BENCHMARK_ID = 7
+LATENCY_BENCHMARK_FILE = f'data/{datetime.date.today()}-{BENCHMARK_ID}.csv'
+PRODUCER_THROUGHPUT_BENCHMARK_FILE = f'data/{datetime.date.today()}-{BENCHMARK_ID}.csv'
+CONSUMER_THROUGHPUT_BENCHMARK_FILE = f'data/{datetime.date.today()}-{BENCHMARK_ID}.csv'
 
 def mark_end_of_push(benchmark_id: str):
     if not BENCHMARKING:
         return
-    os.system(f'echo {time.time()},{benchmark_id} >> {BENCHMARK_FILE}')
+    os.system(f'echo {time.time()},{benchmark_id} >> {LATENCY_BENCHMARK_FILE}')
+
+def count_producer_throughput():
+    if not BENCHMARKING:
+        return
+    os.system(f'echo {time.time()} >> {PRODUCER_THROUGHPUT_BENCHMARK_FILE}')
+
+def count_consumer_throughput():
+    if not BENCHMARKING:
+        return
+    os.system(f'echo {time.time()} >> {CONSUMER_THROUGHPUT_BENCHMARK_FILE}')
 
