@@ -43,7 +43,7 @@ class MultiThreadedQueue(Generic[T]):
     
     def push(self, item: T, benchmark_id: str) -> None:
         q = queue.Queue()
-        thread = threading.Thread(target=self.__push, args=(item, q,))
+        thread = threading.Thread(target=self.__push, args=(item, q, benchmark_id,))
         self.__threads.append((thread, q))
         thread.start()
         
