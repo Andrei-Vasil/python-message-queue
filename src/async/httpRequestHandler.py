@@ -46,7 +46,7 @@ async def unsubscribe(topic, id):
 async def publish(topic):
     try:
         form = await request.json
-        await queueManager.publishMessage(topic, str(form['item']))
+        await queueManager.publishMessage(topic, str(form['item']), str(form['benchmark_id']))
         return f'Successfully published your message to {topic} topic\r\n', 200
     except Exception as e:
         return f'{str(e)}\r\n', 404

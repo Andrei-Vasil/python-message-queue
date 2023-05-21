@@ -47,7 +47,7 @@ def unsubscribe(topic, id):
 def publish(topic):
     try:
         form = request.json
-        queueManager.publishMessage(topic, str(form['item']))
+        queueManager.publishMessage(topic, str(form['item']), str(form['benchmark_id']))
         return f'Successfully published your message to {topic} topic\r\n', 200
     except Exception as e:
         return f'{str(e)}\r\n', 404

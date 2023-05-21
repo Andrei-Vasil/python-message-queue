@@ -41,12 +41,12 @@ class QueueManager:
         async with self.__queue_channels_locks[topic]:
             self.__queue_channels[topic].pop(id)
 
-    async def publishMessage(self, topic: str, message: str):
+    async def publishMessage(self, topic: str, message: str, benchmark_id: str):
         if not await self.__topicManager.exists(topic):
             raise Exception(f"There is no topic named: {topic}")
         async with self.__queue_channels_locks[topic]:
             for queue_channel in self.__queue_channels[topic].values():
-                await queue_channel.push(message)
+                await queue_channel.push(message, benchmark_id)
 
     async def retrieveMessage(self, topic: str, queue_channel_id: int) -> str:
         if not await self.__topicManager.exists(topic):

@@ -41,12 +41,12 @@ class QueueManager:
         with self.__queue_channels_locks[topic]:
             self.__queue_channels[topic].pop(id)
 
-    def publishMessage(self, topic: str, message: str):
+    def publishMessage(self, topic: str, message: str, benchmark_id: str):
         if not self.__topicManager.exists(topic):
             raise Exception(f"There is no topic named: {topic}")
         with self.__queue_channels_locks[topic]:
             for queue_channel in self.__queue_channels[topic].values():
-                queue_channel.push(message)
+                queue_channel.push(message, benchmark_id)
 
     def retrieveMessage(self, topic: str, queue_channel_id: int) -> str:
         if not self.__topicManager.exists(topic):
