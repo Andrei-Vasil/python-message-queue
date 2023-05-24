@@ -33,33 +33,33 @@ class MultiThreadedQueue(Generic[T]):
                     except Exception:
                         pass
 
-    def __push(self, item: T, q: queue.Queue, benchmark_id: str) -> None:
+    def __push(self, item: T, q: queue.Queue, benchmark_id: str, scenario_id: str) -> None:
         with self.__lock:
             self.__items.append(item)
         with self.__condition:
             self.__condition.notify()
-        mark_end_of_push(benchmark_id)
-        count_producer_throughput()
+        mark_end_of_push(benchmark_id, scenario_id)
+        count_producer_throughput(scenario_id)
         q.put(True)
     
-    def push(self, item: T, benchmark_id: str) -> None:
+    def push(self, item: T, benchmark_id: str, scenario_id: str) -> None:
         q = queue.Queue()
-        thread = threading.Thread(target=self.__push, args=(item, q, benchmark_id,))
+        thread = threading.Thread(target=self.__push, args=(item, q, benchmark_id, scenario_id,))
         self.__threads.append((thread, q))
         thread.start()
         
-    def __pop(self, q: queue.Queue) -> T:
+    def __pop(self, q: queue.Queue, scenario_id: str) -> T:
         with self.__condition:
             while len(self.__items) == 0:
                 self.__condition.wait()
             with self.__lock:
                 self.__consumer_queue.put(self.__items.popleft())
-        count_consumer_throughput()
+        count_consumer_throughput(scenario_id)
         q.put(True)
 
-    def pop(self) -> T:
+    def pop(self, scenario_id: str) -> T:
         q = queue.Queue()
-        thread = threading.Thread(target=self.__pop, args=(q,))
+        thread = threading.Thread(target=self.__pop, args=(q, scenario_id,))
         self.__threads.append((thread, q))
         thread.start()
         return self.__consumer_queue.get()

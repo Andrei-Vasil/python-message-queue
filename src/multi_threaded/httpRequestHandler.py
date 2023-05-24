@@ -38,24 +38,24 @@ def subscribe(topic):
 @httpRequestHandler.route("/subscription/<topic>/<id>", methods=['DELETE'])
 def unsubscribe(topic, id):
     try:
-        subscriptionManager.unsubscribe(topic, id)
+        subscriptionManager.unsubscribe(topic, int(id))
         return f'Successfully unsubscribed id {id} from {topic} topic\r\n', 200
     except Exception as e:
         return f'{str(e)}\r\n', 404
     
-@httpRequestHandler.route("/publish/<topic>", methods=['POST'])
-def publish(topic):
+@httpRequestHandler.route("/publish/<topic>/<scenario_id>", methods=['POST'])
+def publish(topic, scenario_id):
     try:
         form = request.json
-        queueManager.publishMessage(topic, str(form['item']), str(form['benchmark_id']))
+        queueManager.publishMessage(topic, str(form['item']), str(form['benchmark_id']), scenario_id)
         return f'Successfully published your message to {topic} topic\r\n', 200
     except Exception as e:
         return f'{str(e)}\r\n', 404
     
-@httpRequestHandler.route("/subscription/<topic>/<id>", methods=['GET'])
-def retrieve(topic, id):
+@httpRequestHandler.route("/subscription/<topic>/<id>/<scenario_id>", methods=['GET'])
+def retrieve(topic, id, scenario_id):
     try:
-        message = queueManager.retrieveMessage(topic, id)
+        message = queueManager.retrieveMessage(topic, id, scenario_id)
         return f'{message}\r\n', 200
     except Exception as e:
         return f'{str(e)}\r\n', 404
