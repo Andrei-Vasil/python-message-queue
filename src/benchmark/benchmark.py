@@ -2,7 +2,7 @@ import datetime
 import os
 import time
 
-BENCHMARKING = True
+BENCHMARKING = False
 
 def mark_end_of_push(benchmark_id: str, scenario_id: str):
     if not BENCHMARKING:

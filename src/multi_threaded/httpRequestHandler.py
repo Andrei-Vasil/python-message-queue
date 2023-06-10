@@ -61,4 +61,4 @@ def retrieve(topic, id, scenario_id):
         return f'{str(e)}\r\n', 404
 
 with MultiThreadedQueue() as queue:
-    httpRequestHandler.run()
+    httpRequestHandler.run(port=5003)

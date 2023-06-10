@@ -59,4 +59,4 @@ async def retrieve(topic, id, scenario_id):
     except Exception as e:
         return f'{str(e)}\r\n', 404
 
-httpRequestHandler.run()
+httpRequestHandler.run(port=5004)
